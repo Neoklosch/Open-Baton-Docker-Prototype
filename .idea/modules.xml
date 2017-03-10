@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Open_Baton_Docker_Prototype.iml" filepath="$PROJECT_DIR$/Open_Baton_Docker_Prototype.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/open_baton_docker_plugin.iml" filepath="$PROJECT_DIR$/.idea/modules/open_baton_docker_plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/open_baton_docker_plugin_main.iml" filepath="$PROJECT_DIR$/.idea/modules/open_baton_docker_plugin_main.iml" group="open_baton_docker_plugin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/open_baton_docker_plugin_test.iml" filepath="$PROJECT_DIR$/.idea/modules/open_baton_docker_plugin_test.iml" group="open_baton_docker_plugin" />
     </modules>
   </component>
 </project>

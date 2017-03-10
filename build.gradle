@@ -1,0 +1,38 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.6.RELEASE")
+    }
+}
+
+plugins {
+    id 'com.github.sherter.google-java-format' version '0.3.2'
+}
+
+group 'com.neoklosch'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'spring-boot'
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
+}
+
+mainClassName = 'com.neoklosch.DockerVimPlugin'
+
+dependencies {
+    compile 'org.openbaton:plugin-sdk:2.1.2'
+    compile 'org.springframework:spring-context:4.2.1.RELEASE'
+    compile group: 'com.spotify', name: 'docker-client', version: '8.1.1'
+
+}

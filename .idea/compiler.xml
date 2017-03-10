@@ -18,5 +18,9 @@
         <processorPath useClasspath="true" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="open_baton_docker_plugin_main" target="1.5" />
+      <module name="open_baton_docker_plugin_test" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>
