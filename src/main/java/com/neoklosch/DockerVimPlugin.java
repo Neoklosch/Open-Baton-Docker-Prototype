@@ -5,6 +5,7 @@ import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.exceptions.DockerCertificateException;
 import com.spotify.docker.client.exceptions.DockerException;
 import com.spotify.docker.client.messages.Image;
+import com.spotify.docker.client.messages.RemovedImage;
 import org.openbaton.catalogue.mano.common.DeploymentFlavour;
 import org.openbaton.catalogue.nfvo.*;
 import org.openbaton.catalogue.security.Key;
@@ -78,31 +79,6 @@ public class DockerVimPlugin extends VimDriver {
     return null;
   }
 
-  public List<NFVImage> listImages(VimInstance vimInstance) throws VimDriverException {
-    createDockerInstance();
-    List<NFVImage> images = new ArrayList<NFVImage>();
-    List<Image> dockerImages = null;
-    try {
-      dockerImages = dockerClient.listImages();
-    } catch (DockerException de) {
-      logger.debug(de.getMessage());
-    } catch (InterruptedException ie) {
-      logger.debug(ie.getMessage());
-    }
-    if (dockerImages != null) {
-      for (Image image : dockerImages) {
-        NFVImage nfvImage = new NFVImage();
-        nfvImage.setName(image.id());
-        nfvImage.setContainerFormat("docker");
-        nfvImage.setCreated(new Date());
-        nfvImage.setIsPublic(true);
-        images.add(nfvImage);
-      }
-    }
-
-    return images;
-  }
-
   public List<Server> listServer(VimInstance vimInstance) throws VimDriverException {
     return null;
   }
@@ -112,7 +88,8 @@ public class DockerVimPlugin extends VimDriver {
   }
 
   public List<DeploymentFlavour> listFlavors(VimInstance vimInstance) throws VimDriverException {
-    return null;
+    // Docker does not support flavors
+    return new ArrayList<DeploymentFlavour>();
   }
 
   public Server launchInstanceAndWait(
@@ -150,9 +127,29 @@ public class DockerVimPlugin extends VimDriver {
     return null;
   }
 
-  public DeploymentFlavour addFlavor(VimInstance vimInstance, DeploymentFlavour deploymentFlavour)
-      throws VimDriverException {
-    return null;
+  public List<NFVImage> listImages(VimInstance vimInstance) throws VimDriverException {
+    createDockerInstance();
+    List<NFVImage> images = new ArrayList<NFVImage>();
+    List<Image> dockerImages = null;
+    try {
+      dockerImages = dockerClient.listImages();
+    } catch (DockerException de) {
+      logger.debug(de.getMessage());
+    } catch (InterruptedException ie) {
+      logger.debug(ie.getMessage());
+    }
+    if (dockerImages != null) {
+      for (Image image : dockerImages) {
+        NFVImage nfvImage = new NFVImage();
+        nfvImage.setName(image.id());
+        nfvImage.setContainerFormat("docker");
+        nfvImage.setCreated(new Date());
+        nfvImage.setIsPublic(true);
+        images.add(nfvImage);
+      }
+    }
+
+    return images;
   }
 
   public NFVImage addImage(VimInstance vimInstance, NFVImage image, byte[] imageFile)
@@ -175,16 +172,16 @@ public class DockerVimPlugin extends VimDriver {
   }
 
   public boolean deleteImage(VimInstance vimInstance, NFVImage image) throws VimDriverException {
-    return false;
-  }
-
-  public DeploymentFlavour updateFlavor(
-      VimInstance vimInstance, DeploymentFlavour deploymentFlavour) throws VimDriverException {
-    return null;
-  }
-
-  public boolean deleteFlavor(VimInstance vimInstance, String extId) throws VimDriverException {
-    return false;
+    createDockerInstance();
+    List<RemovedImage> removedImages = new ArrayList<RemovedImage>();
+    try {
+      removedImages.addAll(dockerClient.removeImage(image.getName()));
+    } catch (DockerException de) {
+      logger.debug(de.getMessage());
+    } catch (InterruptedException ie) {
+      logger.debug(ie.getMessage());
+    }
+    return removedImages.size() > 0;
   }
 
   public Subnet createSubnet(VimInstance vimInstance, Network createdNetwork, Subnet subnet)
@@ -225,5 +222,22 @@ public class DockerVimPlugin extends VimDriver {
 
   public String getType(VimInstance vimInstance) throws VimDriverException {
     return null;
+  }
+
+  public DeploymentFlavour addFlavor(VimInstance vimInstance, DeploymentFlavour deploymentFlavour)
+          throws VimDriverException {
+    // Docker does not support flavors
+    return null;
+  }
+
+  public DeploymentFlavour updateFlavor(
+          VimInstance vimInstance, DeploymentFlavour deploymentFlavour) throws VimDriverException {
+    // Docker does not support flavors
+    return null;
+  }
+
+  public boolean deleteFlavor(VimInstance vimInstance, String extId) throws VimDriverException {
+    // Docker does not support flavors
+    return false;
   }
 }
