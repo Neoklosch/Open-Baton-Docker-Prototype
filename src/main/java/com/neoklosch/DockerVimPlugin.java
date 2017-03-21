@@ -4,10 +4,10 @@ import com.spotify.docker.client.DefaultDockerClient;
 import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.exceptions.DockerCertificateException;
 import com.spotify.docker.client.exceptions.DockerException;
-import com.spotify.docker.client.messages.Image;
-import com.spotify.docker.client.messages.RemovedImage;
+import com.spotify.docker.client.messages.*;
 import org.openbaton.catalogue.mano.common.DeploymentFlavour;
 import org.openbaton.catalogue.nfvo.*;
+import org.openbaton.catalogue.nfvo.Network;
 import org.openbaton.catalogue.security.Key;
 import org.openbaton.exceptions.VimDriverException;
 import org.openbaton.plugin.PluginStarter;
@@ -84,12 +84,98 @@ public class DockerVimPlugin extends VimDriver {
   }
 
   public List<Network> listNetworks(VimInstance vimInstance) throws VimDriverException {
+    createDockerInstance();
+
+    List<com.spotify.docker.client.messages.Network> networks;
+    List<Network> nfvNetworks = new ArrayList<Network>();
+    try {
+      networks = dockerClient.listNetworks();
+    } catch (DockerException de) {
+      logger.debug(de.getMessage());
+      throw new VimDriverException(de.getMessage());
+    } catch (InterruptedException ie) {
+      logger.debug(ie.getMessage());
+      throw new VimDriverException(ie.getMessage());
+    }
+
+    if (networks != null) {
+      for (com.spotify.docker.client.messages.Network dockerNetwork : networks) {
+        if (!dockerNetwork.driver().equals("bridge")) {
+          continue;
+        }
+        Network openBatonNetwork = new Network();
+        openBatonNetwork.setId(dockerNetwork.id());
+        openBatonNetwork.setName(dockerNetwork.name());
+        Boolean isInternal = dockerNetwork.internal();
+        openBatonNetwork.setExternal(isInternal != null && !isInternal);
+        nfvNetworks.add(openBatonNetwork);
+      }
+    }
+    return nfvNetworks;
+  }
+
+  public Network createNetwork(VimInstance vimInstance, Network network) throws VimDriverException {
+    createDockerInstance();
+
+    NetworkConfig.Builder networkConfigBuilder = NetworkConfig.builder();
+    networkConfigBuilder =
+        networkConfigBuilder.ipam(Ipam.create("default", Collections.<IpamConfig>emptyList()));
+    final NetworkConfig bridgeDriverConfig =
+        networkConfigBuilder.name(network.getName()).driver("bridge").build();
+    try {
+      final NetworkCreation bridgeDriverCreation = dockerClient.createNetwork(bridgeDriverConfig);
+      network.setExtId(bridgeDriverCreation.id());
+      network.setExternal(true);
+    } catch (DockerException de) {
+      logger.debug(de.getMessage());
+      throw new VimDriverException(de.getMessage());
+    } catch (InterruptedException ie) {
+      logger.debug(ie.getMessage());
+      throw new VimDriverException(ie.getMessage());
+    }
+    return network;
+  }
+
+  public Network updateNetwork(VimInstance vimInstance, Network network) throws VimDriverException {
     return null;
   }
 
-  public List<DeploymentFlavour> listFlavors(VimInstance vimInstance) throws VimDriverException {
-    // Docker does not support flavors
-    return new ArrayList<DeploymentFlavour>();
+  public boolean deleteNetwork(VimInstance vimInstance, String extId) throws VimDriverException {
+    createDockerInstance();
+
+    Network networkToRemove = getNetworkById(vimInstance, extId);
+
+    if (networkToRemove != null) {
+      try {
+        dockerClient.removeNetwork(extId);
+      } catch (DockerException de) {
+        logger.debug(de.getMessage());
+        throw new VimDriverException(de.getMessage());
+      } catch (InterruptedException ie) {
+        logger.debug(ie.getMessage());
+        throw new VimDriverException(ie.getMessage());
+      }
+    }
+
+    return networkToRemove != null;
+  }
+
+  public Network getNetworkById(VimInstance vimInstance, String id) throws VimDriverException {
+    createDockerInstance();
+
+    Network networkToRemove = null;
+    List<Network> networks = listNetworks(vimInstance);
+
+    if (networks != null) {
+      for (Network network : networks) {
+        if (network.getId().equals(id)) {
+          networkToRemove = network;
+          break;
+        }
+      }
+    }
+
+    return networkToRemove;
   }
 
   public Server launchInstanceAndWait(
@@ -122,10 +208,6 @@ public class DockerVimPlugin extends VimDriver {
 
   public void deleteServerByIdAndWait(VimInstance vimInstance, String id)
       throws VimDriverException {}
-
-  public Network createNetwork(VimInstance vimInstance, Network network) throws VimDriverException {
-    return null;
-  }
 
   public List<NFVImage> listImages(VimInstance vimInstance) throws VimDriverException {
     createDockerInstance();
@@ -173,23 +255,19 @@ public class DockerVimPlugin extends VimDriver {
 
   public boolean deleteImage(VimInstance vimInstance, NFVImage image) throws VimDriverException {
     createDockerInstance();
-    List<RemovedImage> removedImages = new ArrayList<RemovedImage>();
+    boolean removedImages = false;
     try {
-      removedImages.addAll(dockerClient.removeImage(image.getName()));
+      removedImages = dockerClient.removeImage(image.getName()).size() > 0;
     } catch (DockerException de) {
       logger.debug(de.getMessage());
     } catch (InterruptedException ie) {
       logger.debug(ie.getMessage());
     }
-    return removedImages.size() > 0;
+    return removedImages;
   }
 
   public Subnet createSubnet(VimInstance vimInstance, Network createdNetwork, Subnet subnet)
       throws VimDriverException {
-    return null;
-  }
-
-  public Network updateNetwork(VimInstance vimInstance, Network network) throws VimDriverException {
     return null;
   }
 
@@ -208,14 +286,6 @@ public class DockerVimPlugin extends VimDriver {
     return false;
   }
 
-  public boolean deleteNetwork(VimInstance vimInstance, String extId) throws VimDriverException {
-    return false;
-  }
-
-  public Network getNetworkById(VimInstance vimInstance, String id) throws VimDriverException {
-    return null;
-  }
-
   public Quota getQuota(VimInstance vimInstance) throws VimDriverException {
     return null;
   }
@@ -224,14 +294,19 @@ public class DockerVimPlugin extends VimDriver {
     return null;
   }
 
+  public List<DeploymentFlavour> listFlavors(VimInstance vimInstance) throws VimDriverException {
+    // Docker does not support flavors
+    return new ArrayList<DeploymentFlavour>();
+  }
+
   public DeploymentFlavour addFlavor(VimInstance vimInstance, DeploymentFlavour deploymentFlavour)
-          throws VimDriverException {
+      throws VimDriverException {
     // Docker does not support flavors
     return null;
   }
 
   public DeploymentFlavour updateFlavor(
-          VimInstance vimInstance, DeploymentFlavour deploymentFlavour) throws VimDriverException {
+      VimInstance vimInstance, DeploymentFlavour deploymentFlavour) throws VimDriverException {
     // Docker does not support flavors
     return null;
   }
