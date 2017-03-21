@@ -4,8 +4,6 @@
     <list default="true" id="c8c78fd7-228d-4718-865a-76ae5e6b2fcd" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/Open_Baton_Docker_Prototype.iml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/neoklosch/open_baton_docker_plugin/DockerVimPlugin.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/neoklosch/DockerVimPlugin.java" afterPath="$PROJECT_DIR$/src/main/java/com/neoklosch/DockerVimPlugin.java" />
     </list>
     <ignored path="open_baton_docker_plugin.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -793,7 +791,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1055" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25773746" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
