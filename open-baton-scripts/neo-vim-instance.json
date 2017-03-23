@@ -1,0 +1,17 @@
+{
+  "name":"neoklosch-vim-instance",
+  "authUrl":"http://192.168.0.5:5000/v2.0",
+  "tenant":"neoklosch-tenant",
+  "username":"neoklosch",
+  "password":"neoklosch",
+  "keyPair":"neokloschkey",
+  "securityGroups": [
+    "securityName"
+  ],
+  "type":"openstack",
+  "location":{
+    "name":"Berlin",
+    "latitude":"52.525876",
+    "longitude":"13.314400"
+  }
+}
