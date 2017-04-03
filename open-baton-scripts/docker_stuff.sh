@@ -3,13 +3,13 @@
 
 # run container
 # !!!! Attention: Check the IP !!!!
-docker run -d -h openbaton-rabbitmq -p 8080:8080 -p 5672:5672 -p 15672:15672 -p 8443:8443 -e RABBITMQ_BROKERIP=192.168.178.52 neoklosch/open_baton_docker_test
+docker run -d -h openbaton-rabbitmq -p 8080:8080 -p 5672:5672 -p 15672:15672 -p 8443:8443 -e RABBITMQ_BROKERIP=192.168.178.54 neoklosch/open_baton_docker_test
 
 # build Open Baton project
 ./gradlew clean googleJavaFormat build
 
 # copy jar to Open Baton in docker
-docker cp ./build/libs/open_baton_docker_plugin-1.0-SNAPSHOT.jar inspiring_archimedes:/usr/lib/openbaton/plugins/vim-drivers/openbaton-plugin-vimdriver-docker-1.0-SNAPSHOT.jar
+docker cp ./build/libs/open_baton_docker_plugin-1.0-SNAPSHOT.jar gracious_ritchie:/usr/lib/openbaton/plugins/vim-drivers/openbaton-plugin-vimdriver-docker-1.0-SNAPSHOT.jar
 
 # run container and give them a specific name
 docker run -d --name first_container -h openbaton-rabbitmq -p 8080:8080 -p 5672:5672 -p 15672:15672 -p 8443:8443 -e RABBITMQ_BROKERIP=192.168.178.24 1e38eecc6c2b
