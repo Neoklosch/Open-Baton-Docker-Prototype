@@ -8,7 +8,7 @@
       "version":"0.1",
       "name":"neoklosch-dummy-server",
       "type":"server",
-      "endpoint":"dummy",
+      "endpoint":"generic",
       "configurations":{
         "name":"config_name",
         "configurationParameters":[]
@@ -18,7 +18,7 @@
           "vm_image":[
             "ubuntu-14.04-server-cloudimg-amd64-disk1"
           ],
-          "vimInstanceName":["test-vim-instance"],
+          "vimInstanceName":["pop-01"],
           "scale_in_out":1,
           "vnfc":[
             {
@@ -41,8 +41,7 @@
         {
           "event":"INSTANTIATE",
           "lifecycle_events":[
-            "install.sh",
-            "start-srv.sh"
+            "start-docker-container.sh"
           ]
         }
       ],
@@ -51,15 +50,15 @@
           "flavour_key":"m1.small"
         }
       ],
-      "vnfPackageLocation":"https://github.com/openbaton/vnf-scripts.git"
+      "vnfPackageLocation":"https://github.com/Neoklosch/vnf-scripts.git"
 
     },
     {
-      "vendor":"Fokus",
+      "vendor":"neoklosch",
       "version":"0.1",
-      "name":"dummy-client",
+      "name":"neoklosch-dummy-client",
       "type":"client",
-      "endpoint":"dummy",
+      "endpoint":"generic",
       "configurations":{
         "name":"config_name",
         "configurationParameters":[
@@ -71,7 +70,7 @@
           "vm_image":[
             "ubuntu-14.04-server-cloudimg-amd64-disk1"
           ],
-          "vimInstanceName":["test-vim-instance"],
+          "vimInstanceName":["pop-02"],
           "scale_in_out":2,
           "vnfc":[
             {
@@ -104,13 +103,7 @@
         {
           "event":"INSTANTIATE",
           "lifecycle_events":[
-            "install.sh"
-          ]
-        },
-        {
-          "event":"CONFIGURE",
-          "lifecycle_events":[
-            "server_start-clt.sh"
+            "start-docker-container.sh"
           ]
         }
       ],
@@ -119,7 +112,7 @@
           "flavour_key":"m1.small"
         }
       ],
-      "vnfPackageLocation":"https://github.com/openbaton/vnf-scripts.git"
+      "vnfPackageLocation":"https://github.com/Neoklosch/vnf-scripts.git"
     }
   ],
   "vnffgd":[
@@ -133,10 +126,10 @@
   "vnf_dependency":[
     {
       "source":{
-        "name":"dummy-server"
+        "name":"neoklosch-dummy-server"
       },
       "target":{
-        "name":"dummy-client"
+        "name":"neoklosch-dummy-client"
       },
       "parameters":[
         "private"
