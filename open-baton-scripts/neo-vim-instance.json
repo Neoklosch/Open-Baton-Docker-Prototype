@@ -1,6 +1,6 @@
 {
   "name":"pop-01",
-  "authUrl":"172.17.0.3:61614",
+  "authUrl":"172.17.0.3",
   "tenant":"pop-01-tenant",
   "username":"pop-01-username",
   "password":"pop-01-password",
@@ -18,7 +18,7 @@
 
 {
   "name":"pop-02",
-  "authUrl":"172.17.0.4:61615",
+  "authUrl":"172.17.0.4",
   "tenant":"pop-02-tenant",
   "username":"pop-02-username",
   "password":"pop-02-password",
