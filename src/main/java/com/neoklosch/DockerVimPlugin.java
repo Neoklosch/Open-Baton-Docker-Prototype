@@ -1,5 +1,6 @@
 package com.neoklosch;
 
+import com.google.common.collect.ImmutableList;
 import com.spotify.docker.client.DefaultDockerClient;
 import com.spotify.docker.client.DockerClient;
 import com.spotify.docker.client.exceptions.DockerCertificateException;
@@ -40,12 +41,8 @@ public class DockerVimPlugin extends VimDriver {
 
   private DockerClient dockerClient;
 
-  protected void createDockerInstance() {
-    try {
-      dockerClient = DefaultDockerClient.fromEnv().build();
-    } catch (DockerCertificateException dce) {
-      logger.debug(dce.getMessage());
-    }
+  protected void createDockerInstance(String uri) {
+    dockerClient = DefaultDockerClient.builder().uri(uri).build();
   }
 
   public static void main(String[] args)
@@ -74,7 +71,37 @@ public class DockerVimPlugin extends VimDriver {
       String userData)
       throws VimDriverException {
 
-    createDockerInstance();
+    createDockerInstance(vimInstance.getAuthUrl());
+
+    Set<NFVImage> nfvImages = vimInstance.getImages();
+    if (nfvImages != null) {
+      for (NFVImage nfvImage : nfvImages) {
+        if (!nfvImage.getExtId().equals(image)) {
+          continue;
+        }
+        try {
+          logger.debug("try to start : " + image);
+          final ContainerConfig config =
+              ContainerConfig.builder().image(nfvImage.getName()).build();
+          final String containerName = "OpenBaton_" + nfvImage.getId();
+          final ContainerCreation creation = dockerClient.createContainer(config, containerName);
+          dockerClient.startContainer(creation.id());
+        } catch (DockerException de) {
+          logger.debug(de.getMessage());
+        } catch (InterruptedException ie) {
+          logger.debug(ie.getMessage());
+        }
+      }
+    }
+
+    //    logger.debug(vimInstance.toString()); // vimInstance.images[0] -> NFVImage
+    //    logger.debug(name);
+    //    logger.debug(image); // docker image hash aka NFVImage.getName()
+    //    logger.debug(flavor);
+    //    logger.debug(keypair);
+    //    logger.debug(network.toString());
+    //    logger.debug(secGroup.toString());
+    //    logger.debug(userData);
 
     return null;
   }
@@ -96,7 +123,7 @@ public class DockerVimPlugin extends VimDriver {
   }
 
   public List<Network> listNetworks(VimInstance vimInstance) throws VimDriverException {
-    createDockerInstance();
+    createDockerInstance(vimInstance.getAuthUrl());
 
     //    List<com.spotify.docker.client.messages.Network> networks;
     //    List<Network> nfvNetworks = new ArrayList<Network>();
@@ -136,7 +163,7 @@ public class DockerVimPlugin extends VimDriver {
   }
 
   public Network createNetwork(VimInstance vimInstance, Network network) throws VimDriverException {
-    createDockerInstance();
+    createDockerInstance(vimInstance.getAuthUrl());
 
     //    NetworkConfig.Builder networkConfigBuilder = NetworkConfig.builder();
     //    networkConfigBuilder =
@@ -163,7 +190,7 @@ public class DockerVimPlugin extends VimDriver {
   }
 
   public boolean deleteNetwork(VimInstance vimInstance, String extId) throws VimDriverException {
-    createDockerInstance();
+    createDockerInstance(vimInstance.getAuthUrl());
 
     //    Network networkToRemove = getNetworkById(vimInstance, extId);
     //
@@ -184,7 +211,7 @@ public class DockerVimPlugin extends VimDriver {
   }
 
   public Network getNetworkById(VimInstance vimInstance, String id) throws VimDriverException {
-    createDockerInstance();
+    createDockerInstance(vimInstance.getAuthUrl());
 
     //    Network networkToRemove = null;
     //    List<Network> networks = listNetworks(vimInstance);
@@ -232,22 +259,23 @@ public class DockerVimPlugin extends VimDriver {
       Set<String> securityGroups,
       String s)
       throws VimDriverException {
-    Server server = new Server();
-    server.setExtId("docker_server_ext_id");
-    server.setName("server_new_created_docker");
-    DeploymentFlavour flavour = new DeploymentFlavour();
-    flavour.setRam(10);
-    flavour.setVcpus(1);
-    server.setFlavor(flavour);
-    server.setIps(new HashMap<String, List<String>>());
-    return server;
+    //    Server server = new Server();
+    //    server.setExtId("docker_server_ext_id");
+    //    server.setName("server_new_created_docker");
+    //    DeploymentFlavour flavour = new DeploymentFlavour();
+    //    flavour.setRam(10);
+    //    flavour.setVcpus(1);
+    //    server.setFlavor(flavour);
+    //    server.setIps(new HashMap<String, List<String>>());
+    return launchInstance(
+        vimInstance, hostname, image, extId, keyPair, networks, securityGroups, s);
   }
 
   public void deleteServerByIdAndWait(VimInstance vimInstance, String id)
       throws VimDriverException {}
 
   public List<NFVImage> listImages(VimInstance vimInstance) throws VimDriverException {
-    createDockerInstance();
+    createDockerInstance(vimInstance.getAuthUrl());
     List<NFVImage> images = new ArrayList<NFVImage>();
     List<Image> dockerImages = null;
     try {
@@ -260,29 +288,43 @@ public class DockerVimPlugin extends VimDriver {
     if (dockerImages != null) {
       for (Image image : dockerImages) {
         NFVImage nfvImage = new NFVImage();
-        nfvImage.setExtId(image.id());
-        nfvImage.setName(image.id());
+
+        String extId = "unknown";
+        String dockerId = image.id();
+        if (dockerId != null && !"".equals(dockerId)) {
+          extId = dockerId;
+          if (extId.contains(":")) {
+            extId = extId.split(":")[1];
+          }
+        }
+
+        nfvImage.setExtId(extId);
+
+        String name = "unknown";
+        ImmutableList<String> digestList = image.repoDigests();
+        if (digestList != null) {
+          for (String digest : digestList) {
+            if (digest != null && !"".equals(digest)) {
+              name = digest;
+              if (name.contains("@")) {
+                name = name.split("@")[0];
+              }
+            }
+          }
+        }
+
+        nfvImage.setName(name);
         nfvImage.setContainerFormat("docker");
-        nfvImage.setCreated(new Date());
+        nfvImage.setCreated(new Date(1490276975 * 1000L));
         nfvImage.setIsPublic(true);
+        nfvImage.setMinDiskSpace(image.size() / 1000000000); // to GB
+        nfvImage.setVersion(1);
         images.add(nfvImage);
-        logger.debug(image.id());
+        logger.debug("Found a docker image, transformed into a NFV Image " + nfvImage);
       }
     }
 
     return images;
-
-    //    List<NFVImage> images = new ArrayList<NFVImage>();
-    //    for (int index = 0; index < 10; index++) {
-    //      NFVImage nfvImage = new NFVImage();
-    //      nfvImage.setName("ubuntu-14.04-server-cloudimg-amd64-disk1");
-    //      nfvImage.setContainerFormat("docker");
-    //      nfvImage.setCreated(new Date());
-    //      nfvImage.setIsPublic(true);
-    //      images.add(nfvImage);
-    //    }
-    //
-    //    return images;
   }
 
   public NFVImage addImage(VimInstance vimInstance, NFVImage image, byte[] imageFile)
@@ -305,17 +347,16 @@ public class DockerVimPlugin extends VimDriver {
   }
 
   public boolean deleteImage(VimInstance vimInstance, NFVImage image) throws VimDriverException {
-    createDockerInstance();
-    //    boolean removedImages = false;
-    //    try {
-    //      removedImages = dockerClient.removeImage(image.getName()).size() > 0;
-    //    } catch (DockerException de) {
-    //      logger.debug(de.getMessage());
-    //    } catch (InterruptedException ie) {
-    //      logger.debug(ie.getMessage());
-    //    }
-    //    return removedImages;
-    return true;
+    createDockerInstance(vimInstance.getAuthUrl());
+    boolean removedImage = false;
+    try {
+      removedImage = dockerClient.removeImage(image.getExtId()).size() > 0;
+    } catch (DockerException de) {
+      logger.debug(de.getMessage());
+    } catch (InterruptedException ie) {
+      logger.debug(ie.getMessage());
+    }
+    return removedImage;
   }
 
   public Subnet createSubnet(VimInstance vimInstance, Network createdNetwork, Subnet subnet)

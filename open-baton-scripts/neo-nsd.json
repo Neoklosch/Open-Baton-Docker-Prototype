@@ -1,12 +1,12 @@
 {
-  "name":"neo-dummy-NS",
+  "name":"docker-test-NS",
   "vendor":"neoklosch",
   "version":"0.1",
   "vnfd":[
     {
       "vendor":"neoklosch",
       "version":"0.1",
-      "name":"neoklosch-dummy-server",
+      "name":"docker-test-server",
       "type":"server",
       "endpoint":"generic",
       "configurations":{
@@ -16,9 +16,9 @@
       "vdu":[
         {
           "vm_image":[
-            "ubuntu-14.04-server-cloudimg-amd64-disk1"
+            "nginx"
           ],
-          "vimInstanceName":["pop-01"],
+          "vimInstanceName":["docker-test-pop"],
           "scale_in_out":1,
           "vnfc":[
             {
@@ -37,82 +37,14 @@
           "name":"private"
         }
       ],
-      "lifecycle_event":[
-        {
-          "event":"INSTANTIATE",
-          "lifecycle_events":[
-            "start-docker-container.sh"
-          ]
-        }
-      ],
+      "lifecycle_event":[],
       "deployment_flavour":[
         {
-          "flavour_key":"m1.small"
+          "flavour_key":"m1.nano.0"
         }
       ],
-      "vnfPackageLocation":"https://github.com/Neoklosch/vnf-scripts.git"
+      "vnfPackageLocation":"https://github.com/openbaton/vnf-scripts.git"
 
-    },
-    {
-      "vendor":"neoklosch",
-      "version":"0.1",
-      "name":"neoklosch-dummy-client",
-      "type":"client",
-      "endpoint":"generic",
-      "configurations":{
-        "name":"config_name",
-        "configurationParameters":[
-
-        ]
-      },
-      "vdu":[
-        {
-          "vm_image":[
-            "ubuntu-14.04-server-cloudimg-amd64-disk1"
-          ],
-          "vimInstanceName":["pop-02"],
-          "scale_in_out":2,
-          "vnfc":[
-            {
-              "connection_point":[
-                {
-                  "floatingIp":"random",
-                  "virtual_link_reference":"private",
-                  "interfaceId":0
-                }
-              ]
-            },
-            {
-              "connection_point":[
-                {
-                  "floatingIp":"random",
-                  "virtual_link_reference":"private",
-                  "interfaceId":0
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "virtual_link":[
-        {
-          "name":"private"
-        }
-      ],
-      "lifecycle_event":[
-        {
-          "event":"INSTANTIATE",
-          "lifecycle_events":[
-            "start-docker-container.sh"
-          ]
-        }
-      ],
-      "deployment_flavour":[
-        {
-          "flavour_key":"m1.small"
-        }
-      ],
-      "vnfPackageLocation":"https://github.com/Neoklosch/vnf-scripts.git"
     }
   ],
   "vnffgd":[
@@ -126,10 +58,10 @@
   "vnf_dependency":[
     {
       "source":{
-        "name":"neoklosch-dummy-server"
+        "name":"docker-test-server"
       },
       "target":{
-        "name":"neoklosch-dummy-client"
+        "name":"docker-test-server"
       },
       "parameters":[
         "private"

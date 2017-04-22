@@ -8,7 +8,7 @@
   "securityGroups": [
     "securityName"
   ],
-  "type":"test",
+  "type":"openstack",
   "location":{
     "name":"Berlin",
     "latitude":"52.525876",
@@ -26,7 +26,7 @@
   "securityGroups": [
     "securityName"
   ],
-  "type":"test",
+  "type":"openstack",
   "location":{
     "name":"Berlin",
     "latitude":"52.525876",
