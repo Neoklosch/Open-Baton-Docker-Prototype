@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="528787b0-f959-4093-8d3b-eca8769df6b8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/open-baton-scripts/docker_swarm.sh" afterPath="$PROJECT_DIR$/open-baton-scripts/docker_swarm.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/open-baton-scripts/neo-vim-instance.json" afterPath="$PROJECT_DIR$/open-baton-scripts/neo-vim-instance.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/neoklosch/DockerVimPlugin.java" afterPath="$PROJECT_DIR$/src/main/java/com/neoklosch/DockerVimPlugin.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -24,6 +27,16 @@
       <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="12" column="1" lean-forward="false" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings.gradle" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/settings.gradle">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
@@ -34,25 +47,25 @@
       <file leaf-file-name="DockerVimPlugin.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/neoklosch/DockerVimPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="92" column="9" lean-forward="true" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
+            <state relative-caret-position="180">
+              <caret line="384" column="26" lean-forward="true" selection-start-line="384" selection-start-column="26" selection-end-line="384" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3972#3980#0" expanded="true" />
-                <element signature="e#5673#5682#0" expanded="true" />
-                <element signature="e#10026#10036#0" expanded="true" />
-                <marker date="1492884774766" expanded="false" signature="12999:13007" ph="&lt;~&gt;" />
-                <marker date="1492884774766" expanded="false" signature="13858:13877" ph="&lt;~&gt;" />
+                <element signature="e#8791#8799#0" expanded="true" />
+                <element signature="e#10492#10501#0" expanded="true" />
+                <element signature="e#14845#14855#0" expanded="true" />
+                <marker date="1492971049913" expanded="false" signature="17818:17826" ph="&lt;~&gt;" />
+                <marker date="1492971049913" expanded="false" signature="18677:18696" ph="&lt;~&gt;" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="docker_stuff.sh" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/open-baton-scripts/docker_stuff.sh">
+      <file leaf-file-name="docker_swarm.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/open-baton-scripts/docker_swarm.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="36" column="118" lean-forward="false" selection-start-line="36" selection-start-column="118" selection-end-line="36" selection-end-column="118" />
+            <state relative-caret-position="368">
+              <caret line="23" column="42" lean-forward="true" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -69,6 +82,10 @@
       <find>listImages</find>
       <find>Date</find>
       <find>image</find>
+      <find>toString</find>
+      <find>scale</find>
+      <find>update</find>
+      <find>instance</find>
     </findStrings>
     <replaceStrings>
       <replace>createDockerInstance(vimInstance.getAuthUrl());</replace>
@@ -486,6 +503,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/open-baton-scripts/docker_stuff.sh" />
+        <option value="$PROJECT_DIR$/open-baton-scripts/neo-vim-instance.json" />
+        <option value="$PROJECT_DIR$/open-baton-scripts/docker_swarm.sh" />
         <option value="$PROJECT_DIR$/src/main/java/com/neoklosch/DockerVimPlugin.java" />
       </list>
     </option>
@@ -510,13 +529,11 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Open-Baton-Docker-Vim-Driver" />
+              <option name="myItemId" value="open_baton_docker_plugin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -526,7 +543,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Open-Baton-Docker-Vim-Driver" />
+              <option name="myItemId" value="open_baton_docker_plugin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -544,7 +561,29 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
+              <option name="myItemId" value="open_baton_docker_plugin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Open-Baton-Docker-Vim-Driver" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="org.jetbrains.plugins.gradle.projectView.GradleTreeStructureProvider$GradleSourceSetDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="open_baton_docker_plugin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -570,7 +609,7 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Open-Baton-Docker-Vim-Driver" />
+              <option name="myItemId" value="open_baton_docker_plugin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -582,22 +621,10 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Open-Baton-Docker-Vim-Driver" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Open-Baton-Docker-Vim-Driver" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="docker_container" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -770,6 +797,9 @@
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",ALPHA_COMPARATOR" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -785,6 +815,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1080" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -822,6 +853,76 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="12" column="1" lean-forward="false" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/open-baton-scripts/docker_stuff.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="168" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/neoklosch/DockerVimPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1104">
+          <caret line="69" column="27" lean-forward="true" selection-start-line="69" selection-start-column="27" selection-end-line="69" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#8791#8799#0" expanded="true" />
+            <element signature="e#10492#10501#0" expanded="true" />
+            <element signature="e#14845#14855#0" expanded="true" />
+            <marker date="1492971049913" expanded="false" signature="17818:17826" ph="&lt;~&gt;" />
+            <marker date="1492971049913" expanded="false" signature="18677:18696" ph="&lt;~&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/open-baton-scripts/docker_stuff.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="576">
+          <caret line="36" column="118" lean-forward="false" selection-start-line="36" selection-start-column="118" selection-end-line="36" selection-end-column="118" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/neoklosch/DockerVimPlugin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1472">
+          <caret line="92" column="9" lean-forward="true" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#8791#8799#0" expanded="true" />
+            <element signature="e#10492#10501#0" expanded="true" />
+            <element signature="e#14845#14855#0" expanded="true" />
+            <marker date="1492971049913" expanded="false" signature="17818:17826" ph="&lt;~&gt;" />
+            <marker date="1492971049913" expanded="false" signature="18677:18696" ph="&lt;~&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
@@ -832,10 +933,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="864">
           <caret line="54" column="16" lean-forward="false" selection-start-line="54" selection-start-column="16" selection-end-line="54" selection-end-column="16" />
-          <folding>
-            <element signature="e#1416#1417#0" expanded="true" />
-            <element signature="e#1437#1438#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -851,10 +948,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1584">
           <caret line="167" column="23" lean-forward="false" selection-start-line="167" selection-start-column="23" selection-end-line="167" selection-end-column="23" />
-          <folding>
-            <element signature="e#3572#3573#0" expanded="true" />
-            <element signature="e#3595#3596#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -872,11 +965,11 @@
           <caret line="83" column="57" lean-forward="false" selection-start-line="83" selection-start-column="57" selection-end-line="83" selection-end-column="57" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3972#3980#0" expanded="true" />
-            <element signature="e#5673#5682#0" expanded="true" />
-            <element signature="e#10026#10036#0" expanded="true" />
-            <marker date="1492884774766" expanded="false" signature="12999:13007" ph="&lt;~&gt;" />
-            <marker date="1492884774766" expanded="false" signature="13858:13877" ph="&lt;~&gt;" />
+            <element signature="e#8791#8799#0" expanded="true" />
+            <element signature="e#10492#10501#0" expanded="true" />
+            <element signature="e#14845#14855#0" expanded="true" />
+            <marker date="1492971049913" expanded="false" signature="17818:17826" ph="&lt;~&gt;" />
+            <marker date="1492971049913" expanded="false" signature="18677:18696" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -920,10 +1013,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1584">
           <caret line="167" column="23" lean-forward="false" selection-start-line="167" selection-start-column="23" selection-end-line="167" selection-end-column="23" />
-          <folding>
-            <element signature="e#3572#3573#0" expanded="true" />
-            <element signature="e#3595#3596#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -931,38 +1020,24 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="560">
           <caret line="54" column="16" lean-forward="false" selection-start-line="54" selection-start-column="16" selection-end-line="54" selection-end-column="16" />
-          <folding>
-            <element signature="e#1416#1417#0" expanded="true" />
-            <element signature="e#1437#1438#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.spotify/docker-client/8.3.2/b8e8693d2e8c44a8f3738f24c124fa2206254416/docker-client-8.3.2-sources.jar!/com/spotify/docker/client/DefaultDockerClient.java">
+    <entry file="file://$PROJECT_DIR$/open-baton-scripts/neo-nsd.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="640" column="17" lean-forward="true" selection-start-line="640" selection-start-column="17" selection-end-line="640" selection-end-column="17" />
-          <folding />
+        <state relative-caret-position="-301">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.spotify/docker-client/8.3.2/b8e8693d2e8c44a8f3738f24c124fa2206254416/docker-client-8.3.2-sources.jar!/com/spotify/docker/client/DockerClient.java">
+    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="926" column="7" lean-forward="false" selection-start-line="926" selection-start-column="7" selection-end-line="926" selection-end-column="7" />
-          <folding />
+        <state relative-caret-position="80">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="78" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/open-baton-scripts/docker_stuff.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="36" column="118" lean-forward="false" selection-start-line="36" selection-start-column="118" selection-end-line="36" selection-end-column="118" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -970,17 +1045,138 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="12" column="1" lean-forward="false" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/java-1.8.0-openjdk-amd64/jre/lib/rt.jar!/java/util/UUID.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="129" column="26" lean-forward="false" selection-start-line="129" selection-start-column="18" selection-end-line="129" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.spotify/docker-client/8.3.2/b8e8693d2e8c44a8f3738f24c124fa2206254416/docker-client-8.3.2-sources.jar!/com/spotify/docker/client/messages/Container.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="45" column="39" lean-forward="true" selection-start-line="45" selection-start-column="18" selection-end-line="45" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.openbaton/catalogue/2.1.2/516fd27d60ca925d923a4825871f5f80b467dbc8/catalogue-2.1.2-sources.jar!/org/openbaton/catalogue/nfvo/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="105" column="14" lean-forward="false" selection-start-line="105" selection-start-column="14" selection-end-line="105" selection-end-column="14" />
+          <folding>
+            <element signature="e#2472#2473#0" expanded="false" />
+            <element signature="e#2496#2497#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/open-baton-scripts/neo-vim-instance.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="16" column="1" lean-forward="true" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/open-baton-scripts/docker_stuff.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="168" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.spotify/docker-client/8.3.2/b8e8693d2e8c44a8f3738f24c124fa2206254416/docker-client-8.3.2-sources.jar!/com/spotify/docker/client/DefaultDockerClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="1639" column="19" lean-forward="true" selection-start-line="1639" selection-start-column="19" selection-end-line="1639" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.spotify/docker-client/8.3.2/b8e8693d2e8c44a8f3738f24c124fa2206254416/docker-client-8.3.2-sources.jar!/com/spotify/docker/client/messages/swarm/ServiceSpec.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="107" column="45" lean-forward="true" selection-start-line="107" selection-start-column="45" selection-end-line="107" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.spotify/docker-client/8.3.2/b8e8693d2e8c44a8f3738f24c124fa2206254416/docker-client-8.3.2-sources.jar!/com/spotify/docker/client/messages/swarm/TaskSpec.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="36" column="30" lean-forward="false" selection-start-line="36" selection-start-column="22" selection-end-line="36" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.spotify/docker-client/8.3.2/b8e8693d2e8c44a8f3738f24c124fa2206254416/docker-client-8.3.2-sources.jar!/com/spotify/docker/client/messages/swarm/ServiceMode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="57" column="28" lean-forward="false" selection-start-line="57" selection-start-column="28" selection-end-line="57" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.spotify/docker-client/8.3.2/b8e8693d2e8c44a8f3738f24c124fa2206254416/docker-client-8.3.2-sources.jar!/com/spotify/docker/client/messages/swarm/ReplicatedService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="44" column="28" lean-forward="false" selection-start-line="44" selection-start-column="28" selection-end-line="44" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.spotify/docker-client/8.3.2/b8e8693d2e8c44a8f3738f24c124fa2206254416/docker-client-8.3.2-sources.jar!/com/spotify/docker/client/DockerClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="1295" column="23" lean-forward="false" selection-start-line="1295" selection-start-column="2" selection-end-line="1295" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.spotify/docker-client/8.3.2/b8e8693d2e8c44a8f3738f24c124fa2206254416/docker-client-8.3.2-sources.jar!/com/spotify/docker/client/messages/ServiceCreateResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="33" column="22" lean-forward="false" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/open-baton-scripts/docker_swarm.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="23" column="42" lean-forward="true" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.spotify/docker-client/8.3.2/b8e8693d2e8c44a8f3738f24c124fa2206254416/docker-client-8.3.2-sources.jar!/com/spotify/docker/client/messages/swarm/Service.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="50" column="23" lean-forward="false" selection-start-line="50" selection-start-column="23" selection-end-line="50" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/neoklosch/DockerVimPlugin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="92" column="9" lean-forward="true" selection-start-line="92" selection-start-column="9" selection-end-line="92" selection-end-column="9" />
+        <state relative-caret-position="180">
+          <caret line="384" column="26" lean-forward="true" selection-start-line="384" selection-start-column="26" selection-end-line="384" selection-end-column="26" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3972#3980#0" expanded="true" />
-            <element signature="e#5673#5682#0" expanded="true" />
-            <element signature="e#10026#10036#0" expanded="true" />
-            <marker date="1492884774766" expanded="false" signature="12999:13007" ph="&lt;~&gt;" />
-            <marker date="1492884774766" expanded="false" signature="13858:13877" ph="&lt;~&gt;" />
+            <element signature="e#8791#8799#0" expanded="true" />
+            <element signature="e#10492#10501#0" expanded="true" />
+            <element signature="e#14845#14855#0" expanded="true" />
+            <marker date="1492971049913" expanded="false" signature="17818:17826" ph="&lt;~&gt;" />
+            <marker date="1492971049913" expanded="false" signature="18677:18696" ph="&lt;~&gt;" />
           </folding>
         </state>
       </provider>

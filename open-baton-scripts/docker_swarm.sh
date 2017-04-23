@@ -1,38 +1,39 @@
 #!/bin/sh
 
-echo "create cluster and store hash in system variable called sid..."
-sid=$(docker run swarm create)
 
-echo "create swarm master..."
-docker-machine create -d virtualbox --swarm --swarm-master --swarm-discovery token://$sid swarm-master
-# docker-machine create -d virtualbox swarm-master
+# start swarm and master
+docker swarm init
 
-echo "create first node..."
-docker-machine create -d virtualbox --engine-label itype=frontend --swarm --swarm-discovery token://$sid swarm-node-01
-# docker-machine create -d virtualbox worker-01
+# get token
+docker swarm join-token -q worker
 
-echo "create second node..."
-docker-machine create -d virtualbox --swarm --swarm-discovery token://$sid swarm-node-02
+# list all nodes
+docker node ls
 
-echo "create third node..."
-docker-machine create -d virtualbox --swarm --swarm-discovery token://$sid swarm-node-03
+# start worker 01
+docker run -d --privileged --name worker-01 --hostname=worker-01 -p 12375:2375 docker:17.05.0-dind
+# add worker 01 to swarm
+docker --host=localhost:12375 swarm join --token SWMTKN-1-07k0qy2o2onf1j8uysnf2pe4uympcb69s0jd50k2no7jteg2ve-0tx8xju65fz348do4y7x3gpr3 192.168.178.66:2377
 
-echo "link to the swarm via master..."
-eval "$(docker-machine env --swarm swarm-master)"
+# start worker 02
+docker run -d --privileged --name worker-02 --hostname=worker-02 -p 22375:2375 docker:17.05.0-dind
+# add worker 02 to swarm
+docker --host=localhost:22375 swarm join --token SWMTKN-1-07k0qy2o2onf1j8uysnf2pe4uympcb69s0jd50k2no7jteg2ve-0tx8xju65fz348do4y7x3gpr3 192.168.178.66:2377
 
-echo "list machines..."
-docker-machine ls
+# start a service
+docker service create --replicas 2 --name nginx-swarm nginx
 
-echo "show info"
-docker info
+# check state of service
+docker service ls
 
-echo "link to a specific machine..."
-eval "$(docker-machine env swarm-master)"
+# remove service
+docker service rm nginx-swarm
 
-echo "login to one of the machines..."
-docker-machine ssh swarm-master
+# get infos for specific service
+docker service ps nginx-swarm
 
-echo "start container..."
-docker run -itd --name engmgr nginx
+# scale up
+docker service update --replicas 5 nginx-swarm
+
 
 # https://www.youtube.com/watch?v=KC4Ad1DS8xU

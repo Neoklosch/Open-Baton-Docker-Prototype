@@ -1,6 +1,6 @@
 {
   "name":"pop-01",
-  "authUrl":"172.17.0.3",
+  "authUrl":"unix:///var/run/docker.sock",
   "tenant":"pop-01-tenant",
   "username":"pop-01-username",
   "password":"pop-01-password",
@@ -18,7 +18,7 @@
 
 {
   "name":"pop-02",
-  "authUrl":"172.17.0.4",
+  "authUrl":"unix:///var/run/docker.sock",
   "tenant":"pop-02-tenant",
   "username":"pop-02-username",
   "password":"pop-02-password",

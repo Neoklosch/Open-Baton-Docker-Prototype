@@ -3,9 +3,9 @@ package com.neoklosch;
 import com.google.common.collect.ImmutableList;
 import com.spotify.docker.client.DefaultDockerClient;
 import com.spotify.docker.client.DockerClient;
-import com.spotify.docker.client.exceptions.DockerCertificateException;
 import com.spotify.docker.client.exceptions.DockerException;
 import com.spotify.docker.client.messages.*;
+import com.spotify.docker.client.messages.swarm.*;
 import org.openbaton.catalogue.mano.common.DeploymentFlavour;
 import org.openbaton.catalogue.nfvo.*;
 import org.openbaton.catalogue.nfvo.Network;
@@ -48,6 +48,7 @@ public class DockerVimPlugin extends VimDriver {
   public static void main(String[] args)
       throws NoSuchMethodException, IOException, InstantiationException, TimeoutException,
           IllegalAccessException, InvocationTargetException {
+    logger.debug("--- lets get the party startin");
     if (args.length <= 1) {
       PluginStarter.registerPlugin(DockerVimPlugin.class, "docker", "localhost", 5672, 10);
     } else {
@@ -60,6 +61,66 @@ public class DockerVimPlugin extends VimDriver {
     }
   }
 
+  // for single container instantiation
+  //  public Server launchInstance(
+  //      VimInstance vimInstance,
+  //      String name,
+  //      String image,
+  //      String flavor,
+  //      String keypair,
+  //      Set<String> network,
+  //      Set<String> secGroup,
+  //      String userData)
+  //      throws VimDriverException {
+  //
+  //    createDockerInstance(vimInstance.getAuthUrl());
+  //
+  //    logger.debug("--- launchInstance");
+  //
+  //    Server server = null;
+  //    Set<NFVImage> nfvImages = vimInstance.getImages();
+  //    if (nfvImages != null) {
+  //      for (NFVImage nfvImage : nfvImages) {
+  //        if (!nfvImage.getExtId().equals(image)) {
+  //          continue;
+  //        }
+  //        try {
+  //          logger.debug("try to start : " + image);
+  //          final ContainerConfig config =
+  //              ContainerConfig.builder().image(nfvImage.getName()).build();
+  //          final String containerName = "OpenBaton_" + UUID.randomUUID();
+  //          final ContainerCreation creation = dockerClient.createContainer(config, containerName);
+  //          dockerClient.startContainer(creation.id());
+  //
+  //          Container container = getContainerInfo(creation.id());
+  //          if (container != null) {
+  //            server = new Server();
+  //            server.setExtId(container.id());
+  //            final ImmutableList<String> containerNames = container.names();
+  //            server.setName(containerNames != null ? containerNames.get(0) : "no-name");
+  //            server.setStatus(container.state());
+  //            server.setExtendedStatus(container.state() + " - " + container.status());
+  //            //            server.setIps(new HashMap<String, List<String>>());
+  //            //            server.setFloatingIps(new HashMap<String, String>());
+  //            server.setCreated(new Date());
+  //            server.setUpdated(new Date());
+  //            server.setImage(nfvImage);
+  //            //            server.setFlavor(null);
+  //            logger.debug("---- " + server.toString());
+  //          }
+  //        } catch (DockerException de) {
+  //          logger.debug(de.getMessage());
+  //        } catch (InterruptedException ie) {
+  //          logger.debug(ie.getMessage());
+  //        }
+  //      }
+  //    }
+  //
+  //    logger.debug("--- Done launchInstance");
+  //    return server;
+  //  }
+
+  // for docker swarm instantiation
   public Server launchInstance(
       VimInstance vimInstance,
       String name,
@@ -73,6 +134,9 @@ public class DockerVimPlugin extends VimDriver {
 
     createDockerInstance(vimInstance.getAuthUrl());
 
+    logger.debug("--- launchInstance");
+
+    Server server = null;
     Set<NFVImage> nfvImages = vimInstance.getImages();
     if (nfvImages != null) {
       for (NFVImage nfvImage : nfvImages) {
@@ -80,12 +144,47 @@ public class DockerVimPlugin extends VimDriver {
           continue;
         }
         try {
-          logger.debug("try to start : " + image);
-          final ContainerConfig config =
-              ContainerConfig.builder().image(nfvImage.getName()).build();
-          final String containerName = "OpenBaton_" + nfvImage.getId();
-          final ContainerCreation creation = dockerClient.createContainer(config, containerName);
-          dockerClient.startContainer(creation.id());
+          logger.debug("try to start : " + nfvImage.getName());
+          final ContainerSpec containerSpec =
+              ContainerSpec.builder().image(nfvImage.getName()).build();
+          final TaskSpec taskSpec = TaskSpec.builder().containerSpec(containerSpec).build();
+          final ReplicatedService replicatedService =
+              ReplicatedService.builder().replicas(1L).build();
+          final ServiceMode serviceMode =
+              ServiceMode.builder().replicated(replicatedService).build();
+          final ServiceSpec serviceSpec =
+              ServiceSpec.builder()
+                  .name("OpenBaton_SwarmService_" + UUID.randomUUID())
+                  .taskTemplate(taskSpec)
+                  .mode(serviceMode)
+                  .build();
+          final ServiceCreateResponse serviceCreateResponse =
+              dockerClient.createService(serviceSpec);
+          //          final ContainerConfig config =
+          //                  ContainerConfig.builder().image(nfvImage.getName()).build();
+          //          final String containerName = "OpenBaton_" + UUID.randomUUID();
+          //          final ContainerCreation creation = dockerClient.createContainer(config, containerName);
+          //          dockerClient.startContainer(creation.id());
+
+          final Service service = dockerClient.inspectService(serviceCreateResponse.id());
+          if (service != null) {
+            server = new Server();
+            server.setExtId(service.id());
+            server.setName(service.spec().name());
+            server.setStatus("Running");
+            long replicas = 0;
+            if (service.spec().mode() != null && service.spec().mode().replicated() != null) {
+              replicas = service.spec().mode().replicated().replicas();
+            }
+            server.setExtendedStatus("Running with " + replicas + " Replicas");
+            //            server.setIps(new HashMap<String, List<String>>());
+            //            server.setFloatingIps(new HashMap<String, String>());
+            server.setCreated(service.createdAt());
+            server.setUpdated(service.updatedAt());
+            server.setImage(nfvImage);
+            //            server.setFlavor(null);
+            logger.debug("---- " + server.toString());
+          }
         } catch (DockerException de) {
           logger.debug(de.getMessage());
         } catch (InterruptedException ie) {
@@ -94,16 +193,32 @@ public class DockerVimPlugin extends VimDriver {
       }
     }
 
-    //    logger.debug(vimInstance.toString()); // vimInstance.images[0] -> NFVImage
-    //    logger.debug(name);
-    //    logger.debug(image); // docker image hash aka NFVImage.getName()
-    //    logger.debug(flavor);
-    //    logger.debug(keypair);
-    //    logger.debug(network.toString());
-    //    logger.debug(secGroup.toString());
-    //    logger.debug(userData);
+    logger.debug("--- Done launchInstance");
+    return server;
+  }
 
-    return null;
+  private Container getContainerInfo(String containerId) {
+    Container targetContainer = null;
+    try {
+      final List<Container> containers =
+          dockerClient.listContainers(DockerClient.ListContainersParam.allContainers());
+      if (containers != null) {
+        for (Container container : containers) {
+          if (!container.id().equals(containerId)) {
+            continue;
+          }
+
+          targetContainer = container;
+        }
+      } else {
+        System.out.println("--- no containers");
+      }
+    } catch (DockerException de) {
+      logger.debug(de.getMessage());
+    } catch (InterruptedException ie) {
+      logger.debug(ie.getMessage());
+    }
+    return targetContainer;
   }
 
   public List<Server> listServer(VimInstance vimInstance) throws VimDriverException {
