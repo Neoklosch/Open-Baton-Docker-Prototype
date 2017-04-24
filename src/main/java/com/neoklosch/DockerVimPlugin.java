@@ -48,7 +48,6 @@ public class DockerVimPlugin extends VimDriver {
   public static void main(String[] args)
       throws NoSuchMethodException, IOException, InstantiationException, TimeoutException,
           IllegalAccessException, InvocationTargetException {
-    logger.debug("--- lets get the party startin");
     if (args.length <= 1) {
       PluginStarter.registerPlugin(DockerVimPlugin.class, "docker", "localhost", 5672, 10);
     } else {
@@ -134,7 +133,6 @@ public class DockerVimPlugin extends VimDriver {
 
     createDockerInstance(vimInstance.getAuthUrl());
 
-    logger.debug("--- launchInstance");
 
     Server server = null;
     Set<NFVImage> nfvImages = vimInstance.getImages();
@@ -144,7 +142,6 @@ public class DockerVimPlugin extends VimDriver {
           continue;
         }
         try {
-          logger.debug("try to start : " + nfvImage.getName());
           final ContainerSpec containerSpec =
               ContainerSpec.builder().image(nfvImage.getName()).build();
           final TaskSpec taskSpec = TaskSpec.builder().containerSpec(containerSpec).build();
@@ -160,30 +157,20 @@ public class DockerVimPlugin extends VimDriver {
                   .build();
           final ServiceCreateResponse serviceCreateResponse =
               dockerClient.createService(serviceSpec);
-          //          final ContainerConfig config =
-          //                  ContainerConfig.builder().image(nfvImage.getName()).build();
-          //          final String containerName = "OpenBaton_" + UUID.randomUUID();
-          //          final ContainerCreation creation = dockerClient.createContainer(config, containerName);
-          //          dockerClient.startContainer(creation.id());
 
           final Service service = dockerClient.inspectService(serviceCreateResponse.id());
           if (service != null) {
             server = new Server();
             server.setExtId(service.id());
             server.setName(service.spec().name());
-            server.setStatus("Running");
             long replicas = 0;
             if (service.spec().mode() != null && service.spec().mode().replicated() != null) {
               replicas = service.spec().mode().replicated().replicas();
             }
             server.setExtendedStatus("Running with " + replicas + " Replicas");
-            //            server.setIps(new HashMap<String, List<String>>());
-            //            server.setFloatingIps(new HashMap<String, String>());
             server.setCreated(service.createdAt());
             server.setUpdated(service.updatedAt());
             server.setImage(nfvImage);
-            //            server.setFlavor(null);
-            logger.debug("---- " + server.toString());
           }
         } catch (DockerException de) {
           logger.debug(de.getMessage());
@@ -193,7 +180,6 @@ public class DockerVimPlugin extends VimDriver {
       }
     }
 
-    logger.debug("--- Done launchInstance");
     return server;
   }
 
@@ -514,34 +500,32 @@ public class DockerVimPlugin extends VimDriver {
   }
 
   public List<DeploymentFlavour> listFlavors(VimInstance vimInstance) throws VimDriverException {
-    // Docker does not support flavors
+    // Docker does not support flavors, so we add a dummy one
 
     List<DeploymentFlavour> list = new ArrayList<DeploymentFlavour>();
 
-    for (int index = 0; index < 10; index++) {
-      DeploymentFlavour flavour = new DeploymentFlavour();
-      flavour.setExtId("ext_id_" + index);
-      flavour.setFlavour_key("m1.nano." + index);
-      list.add(flavour);
-    }
+    DeploymentFlavour flavour = new DeploymentFlavour();
+    flavour.setExtId("ext_id_docker_container");
+    flavour.setFlavour_key("docker-container");
+    list.add(flavour);
 
     return list;
   }
 
   public DeploymentFlavour addFlavor(VimInstance vimInstance, DeploymentFlavour deploymentFlavour)
       throws VimDriverException {
-    // Docker does not support flavors
+    // Docker does not support flavors, we only have a dummy one
     return deploymentFlavour;
   }
 
   public DeploymentFlavour updateFlavor(
       VimInstance vimInstance, DeploymentFlavour deploymentFlavour) throws VimDriverException {
-    // Docker does not support flavors
+    // Docker does not support flavors, we only have a dummy one
     return deploymentFlavour;
   }
 
   public boolean deleteFlavor(VimInstance vimInstance, String extId) throws VimDriverException {
-    // Docker does not support flavors
+    // Docker does not support flavors, we only have a dummy one
     return false;
   }
 }

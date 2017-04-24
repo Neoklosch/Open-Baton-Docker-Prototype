@@ -1,14 +1,14 @@
 {
-  "name":"pop-01",
+  "name":"docker-test-pop",
   "authUrl":"unix:///var/run/docker.sock",
-  "tenant":"pop-01-tenant",
-  "username":"pop-01-username",
-  "password":"pop-01-password",
-  "keyPair":"pop-01-key",
+  "tenant":"docker-test-pop",
+  "username":"docker-test-pop",
+  "password":"docker-test-pop",
+  "keyPair":"docker-test-pop",
   "securityGroups": [
     "securityName"
   ],
-  "type":"openstack",
+  "type":"docker",
   "location":{
     "name":"Berlin",
     "latitude":"52.525876",
