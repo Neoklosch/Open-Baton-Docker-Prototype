@@ -20,14 +20,17 @@ docker exec 7ad1d7102a98 rabbitmq-plugins enable rabbitmq_management
 # build image
 docker build -t neoklosch/open_baton_docker_test .
 docker build -t neoklosch/open_baton_docker_ems_test .
+docker build -t neoklosch/fog_node_prototype .
 
 # commit image
 docker commit bbd42c2ce2a4 neoklosch/open_baton_docker_test
 docker commit bbd42c2ce2a4 neoklosch/open_baton_docker_ems_test
+docker commit bbd42c2ce2a4 neoklosch/fog_node_prototype
 
 # upload image
 docker push neoklosch/open_baton_docker_test
 docker push neoklosch/open_baton_docker_ems_test
+docker push neoklosch/fog_node_prototype
 
 # start dummy VNFM
 cd /opt/openbaton/dummy-vnfm-amqp && ./dummy-vnfm.sh start
